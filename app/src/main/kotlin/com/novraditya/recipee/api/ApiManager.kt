@@ -10,8 +10,6 @@ import io.reactivex.Observable
  */
 class ApiManager(private val api: Api) {
 
-    fun getRecipes(): Observable<List<Recipe>> {
-        return api.retrieveRecipes()
-    }
+    fun getRecipes(): Observable<List<Recipe>> = api.retrieveRecipes()
 
 }

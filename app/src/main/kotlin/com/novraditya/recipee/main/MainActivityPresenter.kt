@@ -1,7 +1,7 @@
 package com.novraditya.recipee.main
 
-import com.novraditya.recipee.main.model.Recipe
 import com.novraditya.recipee.api.ApiManager
+import com.novraditya.recipee.main.model.Recipe
 import io.reactivex.Observable
 
 /**
@@ -10,8 +10,6 @@ import io.reactivex.Observable
 
 class MainActivityPresenter(private val apiManager: ApiManager) {
 
-    fun getRecipes(): Observable<List<Recipe>> {
-        return apiManager.getRecipes()
-    }
+    fun getRecipes(): Observable<List<Recipe>> = apiManager.getRecipes()
 
 }

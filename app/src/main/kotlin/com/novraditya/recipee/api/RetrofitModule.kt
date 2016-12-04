@@ -63,7 +63,7 @@ class RetrofitModule() {
         return Interceptor { chain ->
             var request = chain.request()
 
-            if (!isNetworkAvailable(context)) {
+            if (!context.isNetworkAvailable()) {
                 val cacheControl = CacheControl.Builder()
                     .maxStale(7, TimeUnit.DAYS)
                     .build()
