@@ -8,7 +8,7 @@ import io.reactivex.Observable
  * Created by elsennovraditya on 11/30/16.
  */
 
-class MainActivityPresenter(private val apiManager: ApiManager) {
+open class MainActivityPresenter(private val apiManager: ApiManager) {
 
     fun getRecipes(): Observable<List<Recipe>> = apiManager.getRecipes()
 

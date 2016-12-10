@@ -8,7 +8,7 @@ import io.reactivex.Observable
  *
  * TODO : Every interceptor for an API call should be in this class
  */
-class ApiManager(private val api: Api) {
+open class ApiManager(private val api: Api) {
 
     fun getRecipes(): Observable<List<Recipe>> = api.retrieveRecipes()
 
