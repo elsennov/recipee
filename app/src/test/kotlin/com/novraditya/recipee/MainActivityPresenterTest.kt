@@ -33,12 +33,12 @@ class MainActivityPresenterTest {
         val api = Mockito.mock(Api::class.java)
         val apiManager = ApiManager(api)
         val mainActivityPresenter = MainActivityPresenter(apiManager)
-        val recipe = Mockito.mock(Recipe::class.java)
         val throwable = Throwable("Error in retrieving receipt")
 
         `when`(api.retrieveRecipes()).then { Observable.error<Throwable>(throwable) }
 
         mainActivityPresenter.getRecipes().test().assertError(throwable)
+        mainActivityPresenter.getRecipes().test().assertTerminated()
     }
 
 }
