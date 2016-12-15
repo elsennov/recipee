@@ -4,6 +4,7 @@ import com.novraditya.recipee.api.Api
 import com.novraditya.recipee.api.ApiManager
 import com.novraditya.recipee.api.error.NetworkError
 import com.novraditya.recipee.api.error.NoInternetError
+import com.novraditya.recipee.api.error.ResultEmptyError
 import com.novraditya.recipee.api.error.UnknownError
 import com.novraditya.recipee.main.MainActivityPresenter
 import com.novraditya.recipee.main.model.Recipe
@@ -33,6 +34,15 @@ class MainActivityPresenterTest {
         mainActivityPresenter.getRecipes().test().assertResult(recipeList)
         mainActivityPresenter.getRecipes().test().assertNoErrors()
         mainActivityPresenter.getRecipes().test().assertComplete()
+    }
+
+    @Test fun testGetRecipesReturnResultEmptyError() {
+        val recipes = listOf<Recipe>()
+
+        `when`(api.retrieveRecipes()).then { Observable.just(recipes) }
+
+        mainActivityPresenter.getRecipes().test().assertError(ResultEmptyError::class.java)
+        mainActivityPresenter.getRecipes().test().assertTerminated()
     }
 
     @Test fun testGetRecipesReturnUnknownError() {
