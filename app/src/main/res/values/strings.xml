@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Recipee</string>
-    <string name="error_retrieving_recipes">Error while retrieving recipes</string>
+    <string name="error_retrieving_recipes">Error while retrieving recipes!</string>
+    <string name="error_recipes_empty">Recipes is empty!</string>
+    <string name="error_network">network problem! Make sure you are connected to internet!</string>
+    <string name="error_no_internet">No internet connection! Please find an internet connection!</string>
+    <string name="error_unknown">Something went wrong!</string>
     <string name="load_more_text">load more…</string>
     <string name="button_text">Go to prismapp.io</string>
 </resources>

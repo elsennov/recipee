@@ -54,13 +54,13 @@ class EndlessRecyclerViewScrollListener(private val layoutManager: RecyclerView.
                 }
             }
 
-            LogUtils.debug("loading", if (loading) "true" else "false" )
-            LogUtils.debug("next page available", if (nextPageAvailable) "true" else "false" )
-            LogUtils.debug("item view type prev total", recyclerView.adapter.getItemViewType(previousTotal-1).toString())
+            LogUtils.debug("loading", if (loading) "true" else "false")
+            LogUtils.debug("next page available", if (nextPageAvailable) "true" else "false")
+            LogUtils.debug("item view type prev total", recyclerView.adapter.getItemViewType(previousTotal - 1).toString())
             LogUtils.debug("prev total", previousTotal.toString())
             LogUtils.debug("total item count", totalItemCount.toString())
-            LogUtils.debug("visible item count", visibleItemCount.toString() )
-            LogUtils.debug("first visible item", firstVisibleItem[0].toString() )
+            LogUtils.debug("visible item count", visibleItemCount.toString())
+            LogUtils.debug("first visible item", firstVisibleItem[0].toString())
 
 
             if (!loading && totalItemCount - visibleItemCount <= firstVisibleItem[0] + visibleThreshold

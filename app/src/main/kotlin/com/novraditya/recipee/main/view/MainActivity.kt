@@ -4,7 +4,12 @@ import android.support.v7.widget.LinearLayoutManager
 import com.jakewharton.rxbinding.view.RxView
 import com.novraditya.recipee.MyApplication
 import com.novraditya.recipee.R
+import com.novraditya.recipee.api.error.NetworkError
+import com.novraditya.recipee.api.error.NoInternetError
+import com.novraditya.recipee.api.error.ResultEmptyError
 import com.novraditya.recipee.main.MainActivityPresenter
+import com.novraditya.recipee.main.model.ingredients
+import com.novraditya.recipee.main.model.recipe
 import com.novraditya.recipee.utils.EndlessRecyclerViewScrollListener
 import com.novraditya.recipee.utils.LogUtils
 import com.trello.navi2.Event
@@ -34,6 +39,7 @@ class MainActivity : NaviAppCompatActivity() {
     init {
         initLayout()
         initRecipe()
+        initRecipeBuilder()
         initButtonInlined { doSomething() }
     }
 
@@ -65,7 +71,12 @@ class MainActivity : NaviAppCompatActivity() {
                 { recipesContainer.adapter = it },
                 {
                     LogUtils.error(tag, "onError in initRecipe", it)
-                    toast(R.string.error_retrieving_recipes)
+                    when (it) {
+                        is ResultEmptyError -> toast(R.string.error_recipes_empty)
+                        is NetworkError -> toast(R.string.error_network)
+                        is NoInternetError -> toast(R.string.error_no_internet)
+                        is UnknownError -> toast(R.string.error_retrieving_recipes)
+                    }
                 },
                 { LogUtils.debug(tag, "onComplete in initRecipe") }
             )
@@ -79,8 +90,8 @@ class MainActivity : NaviAppCompatActivity() {
             .take(1)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { (recipesContainer.adapter as MainAdapter).showLoadMore() }
-            .doOnNext { (recipesContainer.adapter as MainAdapter).hideLoadMore() }
+            .doOnSubscribe { recipesContainer.getMainAdapter().showLoadMore() }
+            .doOnNext { recipesContainer.getMainAdapter().hideLoadMore() }
             .subscribe(
                 {
                     LogUtils.debug(tag, "onNext in loadMoreRecipes")
@@ -100,7 +111,36 @@ class MainActivity : NaviAppCompatActivity() {
             )
     }
 
-    inline private fun initButtonInlined(crossinline doSomething: () -> Unit) {
+    private fun initRecipeBuilder() {
+        val recipe = recipe {
+            id = "123"
+            name = "Elsen"
+            ingredients {
+                com.novraditya.recipee.main.model.ingredient {
+                    name = "Sugar"
+                    unit = "kg"
+                    amount = 2.0f
+                    com.novraditya.recipee.main.model.addition {
+                        name = "hahaha"
+                    }
+                }
+                com.novraditya.recipee.main.model.ingredient {
+                    name = "Salt"
+                    unit = "kg"
+                    amount = 1.0f
+                    com.novraditya.recipee.main.model.addition {
+                        name = "hehehe"
+                    }
+                }
+            }
+        }
+
+        LogUtils.debug(tag, "onNext in initLayout: ${recipe.name}")
+        LogUtils.debug(tag, "onNext in initLayout: ${recipe.ingredient[0].name}")
+        LogUtils.debug(tag, "onNext in initLayout: ${recipe.ingredient[0].addition.info}")
+    }
+
+    inline private fun initButtonInlined(doSomething: () -> Unit) {
         doSomething()
     }
 
